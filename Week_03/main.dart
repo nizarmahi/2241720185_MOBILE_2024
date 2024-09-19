@@ -5,7 +5,7 @@ void main() {
 
   print("Bilangan prima dari 0 hingga 201:");
 
-  for (int i = 2; i <= 21; i++) {
+  for (int i = 2; i <= 201; i++) {
     bool isPrime = true;
 
     for (int j = 2; j <= i / 2; j++) {
