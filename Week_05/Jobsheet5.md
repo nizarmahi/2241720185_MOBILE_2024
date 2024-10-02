@@ -434,6 +434,8 @@ Hasil :
 
 ## Tugas Praktikum | Codelabs Google
 
+- Link Repository: [namer_app](https://github.com/nizarmahi/namer_app)
+
 ### no. 1 | First Hot Reload
 
 ![TL1](assets/TL1.png)
