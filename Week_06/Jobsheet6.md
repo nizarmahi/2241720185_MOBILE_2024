@@ -8,6 +8,8 @@
 
 ---
 
+[layout_flutter](https://github.com/nizarmahi/layout_flutter)
+
 ## Praktikum 1 | Membangun Layout di Flutter
 
 Hasil Praktikum 1 : 
@@ -34,7 +36,7 @@ Hasil Praktikum 4 :
 
 ## Tugas Praktikum 1 | Basic Layout Flutter
 
-- Link Repository : [basic_layout_flutter](https://github.com/nizarmahi/basic_layout_flutter)
+- Link Repository : [layout_flutter](https://github.com/nizarmahi/layout_flutter)
 
 Hasil Tugas Praktikum 1 : 
 
