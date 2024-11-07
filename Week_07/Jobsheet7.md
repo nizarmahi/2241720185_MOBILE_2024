@@ -1,13 +1,4 @@
-# *07 | Manajemen Plugin*
-
-**Nama** : Mochammad Nizar Mahi
-
-**NIM** : 2241720185
-
-**Kelas** : TI-3F / 13
-
----
-
+\
 ## Praktikum Menerapkan Plugin di Project Flutter
 
 ### Langkah 1 : Buat Project Baru
