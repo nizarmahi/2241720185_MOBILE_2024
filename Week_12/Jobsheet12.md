@@ -120,5 +120,36 @@ late ColorStream colorStream;
 ## Langkah 9 : Tambah method changeColor()
 Tetap di file main, Ketik kode seperti berikut
 ```dart
-
+void changeColor() async {
+    await for (var eventColor in colorStream.getColors()) {
+      setState(() {
+        bgColor = eventColor;
+      });
+    }
+  }
 ```
+## Langkah 10 : Lakukan override initState()
+```dart
+@override
+void initState() {
+  super.initState();
+  colorStream = ColorStream();
+  changeColor();
+}
+```
+## Langkah 11 : Ubah isi scaffold()
+```dart
+Scaffold(
+  appBar: AppBar(
+    title: Text('Stream'),
+  ),
+  body: Container(
+    decoration: BoxDecoration(color: bgColor),
+  )
+)
+```
+## Langkah 12 : Run
+![](assets/P1.gif)
+>**Soal 4**
+>- Capture hasil praktikum Anda berupa GIF dan lampirkan di README.
+>- Lakukan commit hasil jawaban Soal 4 dengan pesan "W12: Jawaban Soal 4"
