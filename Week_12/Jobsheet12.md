@@ -153,3 +153,21 @@ Scaffold(
 >**Soal 4**
 >- Capture hasil praktikum Anda berupa GIF dan lampirkan di README.
 >- Lakukan commit hasil jawaban Soal 4 dengan pesan "W12: Jawaban Soal 4"
+
+## Langkah 13 : Ganti isi method changeColor()
+Anda boleh comment atau hapus kode sebelumnya, lalu ketika kode seperti berikut.
+```dart
+colorStream.getColors().listen((eventColor) {
+      setState(() {
+        bgColor = eventColor;
+      });
+    });
+```
+
+>- Jelaskan perbedaan menggunakan listen dan await for (langkah 9) !
+> **- Jawaban:**
+> - `listen` digunakan untuk mendengarkan stream, dan akan dipanggil setiap kali ada perubahan pada stream. Sedangkan `await for` digunakan untuk menunggu stream selesai, dan akan dipanggil setelah stream selesai.
+> - `listen` lebih cocok digunakan ketika ingin mendengarkan stream secara real-time, sedangkan `await for` lebih cocok digunakan ketika ingin menunggu stream selesai.
+> - `listen` akan dipanggil setiap kali ada perubahan pada stream, sedangkan `await for` hanya dipanggil sekali ketika stream selesai.
+>- `listen` dapat digunakan untuk mendengarkan stream yang tidak pernah selesai, sedangkan `await for` hanya dapat digunakan untuk mendengarkan stream yang pernah selesai.
+>- Lakukan commit hasil jawaban Soal 5 dengan pesan "W12: Jawaban Soal 5"
