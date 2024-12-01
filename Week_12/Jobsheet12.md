@@ -313,12 +313,43 @@ Kode langkah 13 menambahkan method `addError()` yang akan menambahkan error ke s
 # Praktikum 3: Injeksi data ke streams
 
 ## Langkah 1 : Buka main.dart
+Tambahkan variabel baru di dalam class _StreamHomePageState
+```dart
+  late StreamTransformer transformer;
+```
 ## Langkah 2 : Tambahkan kode ini di initState
+```dart
+transformer = StreamTransformer<int, int>.fromHandlers(
+      handleData: (value, sink) {
+        sink.add(value * 10);
+      },
+      handleError: (error, stackTrace, sink) {
+        sink.addError(-1);
+      },
+      handleDone: (sink) => sink.close(),
+    );
+```
 ## Langkah 3 : Tetap di initState
+Lakukan edit seperti kode berikut.
+```dart
+    stream.transform(transformer).listen((event) {
+      setState(() {
+        lastNumber = event;
+      });
+    }).onError((error) {
+      setState(() {
+        lastNumber = -1;
+      });
+    });
+    super.initState();
+```
 ## Langkah 4 : Run
 >**Soal 8**
->- Jelaskan maksud kode langkah 1-3 tersebut!
+>- Jelaskan maksud kode langkah 1-3 tersebut!  
+**Jawab** :  
+Kode ini digunakan untuk memproses data dari stream sebelum ditampilkan di aplikasi. Langkah pertama adalah menyiapkan variabel transformer, yang bertugas memodifikasi data. Aturannya dibuat di langkah kedua: data dari stream akan dikalikan 10, error akan diubah menjadi -1, dan stream ditutup jika selesai. Pada langkah terakhir, transformer diterapkan ke stream, dan data hasilnya disimpan ke variabel lastNumber, sehingga UI aplikasi bisa diperbarui secara real-time. Jika terjadi error, lastNumber otomatis diatur ke -1.
 >- Capture hasil praktikum Anda berupa GIF dan lampirkan di README.
+![](assets/Soal%208.gif)
 >- Lalu lakukan commit dengan pesan "W12: Jawaban Soal 8".
 # Praktikum 4 : Subscribe ke stream events
 
