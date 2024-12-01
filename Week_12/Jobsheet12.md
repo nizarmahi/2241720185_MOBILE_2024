@@ -171,3 +171,237 @@ colorStream.getColors().listen((eventColor) {
 > - `listen` akan dipanggil setiap kali ada perubahan pada stream, sedangkan `await for` hanya dipanggil sekali ketika stream selesai.
 >- `listen` dapat digunakan untuk mendengarkan stream yang tidak pernah selesai, sedangkan `await for` hanya dapat digunakan untuk mendengarkan stream yang pernah selesai.
 >- Lakukan commit hasil jawaban Soal 5 dengan pesan "W12: Jawaban Soal 5"
+
+# Praktikum 2 : Strea controllers dan skins
+
+## Langkah 1 : Buka file stream.dart
+Lakukan impor dengan mengetik kode ini.
+```dart
+import 'dart:async';
+```
+## Langkah 2 : Tambah class NumberStream
+Tetap di file `stream.dart` tambah class baru seperti berikut.
+```dart
+class NumberStream {
+
+}
+```
+## Langkah 3 : Tambah method streamController
+Di dalam `class NumberStream` buatlah variabel seperti berikut.
+```dart
+final StreamController<int> controller = StreamController<int>();
+```
+## Langkah 4 : Tambah method addNumberToSink
+Tetap di class NumberStream buatlah method ini
+```dart
+void addNumberToSink(int number) {
+  controller.sink.add(number);
+}
+```
+## Langkah 5 : Tambah method close
+Tetap di class NumberStream buatlah method ini
+```dart
+void close() {
+  controller.close();
+}
+```
+## Langkah 6 : Buka main.dart
+Ketik kode import seperti berikut.
+```dart
+import 'dart:async';
+import 'dart:math';
+```
+## Langkah 7 : Tambah variabel
+Di dalam `class _StreamHomePageState` ketik variabel berikut
+```dart
+int lastNumber = 0;
+late StreamController numberStreamController;
+late NumberStream numberStream;
+```
+## Langkah 8 : Edit initState()
+```dart
+void initState() {
+    numberStream = NumberStream();
+    numberStreamController = numberStream.controller;
+    Stream stream = numberStreamController.stream;
+    stream.listen((event) {
+      setState(() {
+        lastNumber = event;
+      });
+    });
+
+    super.initState();
+  }
+```
+## Langkah 9 : Edit dispose()
+```dart
+@override
+  void dispose() {
+    numberStreamController.close();
+    super.dispose();
+  }
+```
+## Langkah 10 : Tambah method addRandomNumber()
+```dart
+void addRandomNumber() {
+  Random random = Random();
+  int myNum = random.nextInt(10);
+  numberStream.addNumberToSink(myNum);
+}
+```
+## Langkah 11 : Edit method build()
+```dart
+        body: SizedBox(
+          width: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(lastNumber.toString()),
+              ElevatedButton(
+                  onPressed: () => addRandomNumber(),
+                  child: Text('New Random Number')),
+            ],
+          ),
+        ));
+```
+## Langkah 12 : Run
+>.**Soal 6**
+>- Jelaskan maksud kode langkah 8 dan 10 tersebut!
+>- Capture hasil praktikum Anda berupa GIF dan lampirkan di README.
+>- Lalu lakukan commit dengan pesan "W12: Jawaban Soal 6".
+![](assets/Soal%205.gif)
+## Langkah 13 : Buka stream.dart
+Tambahkan method berikut ini.
+```dart
+addError() {
+  controller.sink.addError('Error');
+}
+```
+## Langkah 14 : Buka main.dart
+Tambahkan method `onError` di dalam `class StreamHomePageState` pada method listen di fungsi `initState()` seperti berikut ini.
+```dart
+    stream.listen((event) {
+      setState(() {
+        lastNumber = event;
+      });
+    }).onError((error) {
+      setState(() {
+        lastNumber = -1;
+      });
+    });
+```
+## Langkah 15 : Edit method addRandomNumber()
+Lakukan comment pada dua baris kode berikut, lalu ketik kode seperti berikut ini.
+```dart
+  void addRandomNumber() {
+    Random random = Random();
+    // int myNum = random.nextInt(10);
+    // numberStream.addNumberToSink(myNum);
+    numberStream.addError();
+  }
+```
+>**Soal 7**
+>- Jelaskan maksud kode langkah 13 sampai 15 tersebut!  
+**Jawab** : 
+Kode langkah 13 menambahkan method `addError()` yang akan menambahkan error ke sink controller. Kode langkah 14 menambahkan method `onError` yang akan dipngunakan untuk menangani error yang terjadi pada stream. Kode langkah 15 menambahkan method `addRandomNumber()` yang akan menambahkan error ke stream
+>- Capture hasil praktikum Anda berupa GIF dan lampirkan di README.
+>- Kembalikan kode seperti semula pada Langkah 15, comment addError() agar Anda dapat melanjutkan ke praktikum 3 berikutnya.
+>- Lalu lakukan commit dengan pesan "W12: Jawaban Soal 7".
+![](assets/Soal%207.gif)
+
+# Praktikum 3: Injeksi data ke streams
+
+## Langkah 1 : Buka main.dart
+## Langkah 2 : Tambahkan kode ini di initState
+## Langkah 3 : Tetap di initState
+## Langkah 4 : Run
+>**Soal 8**
+>- Jelaskan maksud kode langkah 1-3 tersebut!
+>- Capture hasil praktikum Anda berupa GIF dan lampirkan di README.
+>- Lalu lakukan commit dengan pesan "W12: Jawaban Soal 8".
+# Praktikum 4 : Subscribe ke stream events
+
+## Langkah 1 : Buka Tambah variabel 
+## Langkah 2 : Edit initState()
+## Langkah 3 : tetap di initState()
+## Langkah 4 : Tambah properti onDone()
+## Langkah 5 : Tambah method baru
+## Langkah 6 : Pindah ke method dispose()
+## Langkah 7 : Pindah ke method build()
+## Langkah 8 : Edit method addRandomNumber()
+## Langkah 9 : Run
+## Langkah 10 : Tekan button 'Stop Subscription'
+>**Soal 9**
+>- Jelaskan maksud kode langkah 2, 6 dan 8 tersebut!
+>- Capture hasil praktikum Anda berupa GIF dan lampirkan di README.
+>- Lalu lakukan commit dengan pesan "W12: Jawaban Soal 9"
+# Praktikum 5 : Multiple stream subscriptions
+## Langkah 1 : Buka main.dart
+## Langkah 2 : Edit initState()
+## Langkah 3 : Run
+>**Soal 10**
+>- Jelaskan mengapa error itu bisa terjadi
+## Langkah 4 : Set broadcast stream
+## Langkah 5 : Edit method build()
+## Langkah 6 : Run
+>**Soal 11**
+>- Jelaskan mengapa hal itu bisa terjadi ?
+>- Capture hasil praktikum Anda berupa GIF dan lampirkan di README.
+>- Lalu lakukan commit dengan pesan "W12: Jawaban Soal 10,11".
+# Praktikum 6 : StreamBuilder
+## Langkah 1 : Buat Project Baru
+## Langkah 2 : Buat file baru stream.dart
+## Langkah 3 : Edit file stream.dart
+## Langkah 4 : Edit file main.dart
+## Langkah 5 : Tambah variabel
+## Langkah 6 : Edit method initState()
+## Langkah 7 : Edit method build()
+## Langkah 8 : Run
+>**Soal 12**
+>- Jelaskan maksud kode pada langkah 3 dan 7 !
+>- Capture hasil praktikum Anda berupa GIF dan lampirkan di README.
+>- Lalu lakukan commit dengan pesan "W12: Jawaban Soal 12".
+# Praktikum 7 : BLoC Pattern
+## Langkah 1: Buat Project baru
+Buatlah sebuah project flutter baru dengan nama bloc_random_nama (beri nama panggilan Anda) di folder week-12/src/ repository GitHub Anda. Lalu buat file baru di folder lib dengan nama random_bloc.dart
+
+## Langkah 2: Isi kode random_bloc.dart
+Ketik kode impor berikut ini.
+
+## Langkah 3: Buat class RandomNumberBloc()
+
+## Langkah 4: Buat variabel StreamController
+Di dalam class RandomNumberBloc() ketik variabel berikut ini
+
+## Langkah 5: Buat constructor
+
+## Langkah 6: Buat method dispose()
+
+## Langkah 7: Edit main.dart
+
+## Langkah 8: Buat file baru random_screen.dart
+Di dalam folder lib project Anda, buatlah file baru ini.
+
+## Langkah 9: Lakukan impor material dan random_bloc.dart
+Ketik kode ini di file baru random_screen.dart
+
+## Langkah 10: Buat StatefulWidget RandomScreen
+Buatlah di dalam file random_screen.dart
+
+## Langkah 11: Buat variabel
+Ketik kode ini di dalam class _RandomScreenState
+
+## Langkah 12: Buat method dispose()
+Ketik kode ini di dalam class _StreamHomePageState
+
+## Langkah 13: Edit method build()
+Ketik kode ini di dalam class _StreamHomePageState
+
+Run aplikasi, maka Anda akan melihat angka acak antara angka 0 sampai 9 setiap kali menekan tombol FloactingActionButton.
+
+>**Soal 13**
+>- Jelaskan maksud praktikum ini ! Dimanakah letak konsep pola BLoC-nya ?
+>- Capture hasil praktikum Anda berupa GIF dan lampirkan di README.
+>- Lalu lakukan commit dengan pesan "W12: Jawaban Soal 13".
+Back
