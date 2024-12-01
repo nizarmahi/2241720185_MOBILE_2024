@@ -354,18 +354,76 @@ Kode ini digunakan untuk memproses data dari stream sebelum ditampilkan di aplik
 # Praktikum 4 : Subscribe ke stream events
 
 ## Langkah 1 : Buka Tambah variabel 
+Tambahkan variabel baru di dalam `class _StreamHomePageState`
+```dart
+late StreamSubscription _subscription;
+```
 ## Langkah 2 : Edit initState()
+```dart
+numberStream = NumberStream();
+    numberStreamController = numberStream.controller;
+    Stream stream = numberStreamController.stream;
+    _subscription = stream.listen((event) {
+      setState(() {
+        lastNumber = event;
+      });
+    });
+    super.initState();
+```
 ## Langkah 3 : tetap di initState()
+```dart
+subscription.onError((error) {
+      setState(() {
+        lastNumber = -1;
+      });
+    });
+```
 ## Langkah 4 : Tambah properti onDone()
+```dart
+    subscription.onDone(() {
+      print('On done was called');
+    });
+```
 ## Langkah 5 : Tambah method baru
+```dart
+  void stopStream() {
+    numberStreamController.close();
+  }
+```
 ## Langkah 6 : Pindah ke method dispose()
+```dart
+subscription.cancel();
+```
 ## Langkah 7 : Pindah ke method build()
+```dart
+ElevatedButton(
+  onPressed: () => stopStream(),
+  child: const Text('Stop Subscription'),
+),
+```
 ## Langkah 8 : Edit method addRandomNumber()
+```dart
+  void addRandomNumber() {
+    Random random = Random();
+    int myNum = random.nextInt(10);
+    if (!numberStreamController.isClosed) {
+      numberStream.addNumberToSink(myNum);
+    } else {
+      setState(() {
+        lastNumber = -1;
+      });
+    }
+  }
+```
 ## Langkah 9 : Run
+
 ## Langkah 10 : Tekan button 'Stop Subscription'
 >**Soal 9**
->- Jelaskan maksud kode langkah 2, 6 dan 8 tersebut!
->- Capture hasil praktikum Anda berupa GIF dan lampirkan di README.
+>- Jelaskan maksud kode langkah 2, 6 dan 8 tersebut!  
+**Jawab** :  
+Pada **Langkah 2**, kode `stream.listen()` di dalam `initState()` digunakan untuk **mendengarkan** stream dan menangkap event yang dikirim oleh stream. Hasil event tersebut akan memperbarui nilai `lastNumber`, yang digunakan untuk memperbarui tampilan UI dengan nilai terbaru. Langkah ini merupakan cara untuk memulai **langganan (subscription)** ke stream, sehingga aplikasi dapat merespons perubahan data yang diterima. Pada **Langkah 6**, pemanggilan `subscription.cancel()` dipindahkan ke dalam metode `dispose()`. Ini bertujuan untuk **menghentikan langganan** ketika widget dihancurkan, mencegah kebocoran memori atau proses yang terus berjalan setelah widget tidak digunakan lagi. Sedangkan pada **Langkah 8**, di dalam metode `addRandomNumber()`, pengecekan dilakukan untuk memastikan bahwa data hanya ditambahkan ke stream jika **stream controller belum ditutup**. Jika stream sudah ditutup (misalnya karena stream dihentikan atau ditutup sebelumnya), angka tidak akan ditambahkan dan `lastNumber` akan diubah menjadi -1 untuk menunjukkan bahwa tidak ada data yang bisa ditambahkan. Langkah ini memastikan aplikasi tetap stabil dan tidak mencoba untuk mengirimkan data ke stream yang sudah tidak aktif.
+>- Capture hasil praktikum Anda berupa GIF dan lampirkan di README.  
+![](assets/Soal%209.gif)
 >- Lalu lakukan commit dengan pesan "W12: Jawaban Soal 9"
 # Praktikum 5 : Multiple stream subscriptions
 ## Langkah 1 : Buka main.dart
