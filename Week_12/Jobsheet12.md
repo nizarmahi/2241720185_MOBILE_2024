@@ -427,16 +427,55 @@ Pada **Langkah 2**, kode `stream.listen()` di dalam `initState()` digunakan untu
 >- Lalu lakukan commit dengan pesan "W12: Jawaban Soal 9"
 # Praktikum 5 : Multiple stream subscriptions
 ## Langkah 1 : Buka main.dart
+Ketik variabel berikut di `class _StreamHomePageState`
+```dart
+late StreamSubscription subscription2;
+String values = '';
+```
 ## Langkah 2 : Edit initState()
+```dart
+    subscription = stream.listen((event) {
+      setState(() {
+        values += '$event - ';
+      });
+    });
+    subscription2 = stream.listen((event) {
+      setState(() {
+        values += '$event - ';
+      });
+    });
+```
 ## Langkah 3 : Run
+![](assets/Soal%2010.png)
 >**Soal 10**
->- Jelaskan mengapa error itu bisa terjadi
+>- Jelaskan mengapa error itu bisa terjadi  
+**Jawab** :   
+Error tersebut bisa terjadi karena kita telah membuat dua **langganan(subscription)** ke stream yang sama, yaitu `stream`. Ketika kita membuat langgan kedua, `subscription2`, kita tidak membatalkan langganan pertama, `subscription`. Karena itu, ketika kita mencoba untuk mendengarkan stream lagi, stream akan mencoba untuk mengirimkan event ke kedua langganan, tetapi karena stream hanya dapat diakses oleh satu langganan, maka akan terjadi **konflik(konflik)** antara kedua langganan tersebut. Hal ini dapat menyebabkan error karena stream tidak dapat diakses oleh lebih dari satu langganan.
 ## Langkah 4 : Set broadcast stream
+```dart
+@override
+  void initState() {
+    numberStream = NumberStream();
+    numberStreamController = numberStream.controller;
+    Stream stream = numberStreamController.stream.asBroadcastStream();
+    ...
+```
 ## Langkah 5 : Edit method build()
+```dart
+child: Column(
+  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  crossAxisAlignment: CrossAxisAlignment.center,
+  children: [
+    Text(values),
+    ...
+```
 ## Langkah 6 : Run
 >**Soal 11**
->- Jelaskan mengapa hal itu bisa terjadi ?
+>- Jelaskan mengapa hal itu bisa terjadi ?  
+  **Jawab** :   
+  Hal itu bisa terjadi karena kita menggunakan `asBroadcastStream()` untuk mengubah stream menjadi stream broadcast. Stream broadcast dapat diakses oleh banyak subscriber, sehingga ketika kita menambahkan subscriber baru, stream broadcast akan mengirimkan data ke subscriber baru tersebut. Jika kita tidak menggunakan `asBroadcastStream()`, maka stream akan menjadi stream unicast yang hanya dapat diakses oleh satu subscriber. Ketika kita menambahkan subscriber baru, stream unicast akan mengirimkan data ke subscriber pertama saja, dan subscriber baru tidak akan menerima data.
 >- Capture hasil praktikum Anda berupa GIF dan lampirkan di README.
+![](assets/Soal%2011.gif)
 >- Lalu lakukan commit dengan pesan "W12: Jawaban Soal 10,11".
 # Praktikum 6 : StreamBuilder
 ## Langkah 1 : Buat Project Baru
